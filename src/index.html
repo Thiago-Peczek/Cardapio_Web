@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" />
+    <title>Restaurante</title>
+</head>
+<body>
+    <div class="ordem">
+        <h2>Qual o seu pedido</h2>
+        <div id="cabecalho">
+            <small>Nome:_____________</small>
+            <small>Data:__/__/____</small>
+        </div>
+        
+        <div id="metodos">Adicionar prato</div>
+        <div id="metodos">Atualizar prato</div>
+        <div id="metodos">Deletar prato</div>
+    </div>
+    <div class="cardapio">
+        <div class="hard"><h1>Cardapio</h1></div>
+        <div class="hard"></div>
+        <div>
+            <h1>Entradas</h1>
+        </div>
+        <div>
+            <h1>Pratos Principais</h1>
+        </div>
+        <div>
+            <h1>Sobremesas</h1>
+        </div>
+        <div>
+            <h1>Bebidas</h1>
+        </div>
+        <div class="hard"></div>
+        <div class="hard">Feito por <small>~ Henrique Meneses<br>~ Paulo Roberto<br>~ Thiago Tanaka</small></div>
+    </div>
+
+    <script src="./scripts/jquery.js"></script>
+    <script src="./scripts/turn.js"></script>
+    <script>
+        $(".cardapio").turn();
+    </script>
+</body>
+</html>

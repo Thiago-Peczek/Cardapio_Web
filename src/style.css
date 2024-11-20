@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Great+Vibes&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Great Vibes', cursive;
+}
+
+body {
+    display: flex;
+    place-content: center;
+    padding: 5% 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: rgb(255, 187, 0);
+}
+
+.ordem {
+    margin: 5%;
+    padding: 20px;
+    width: 40dvh;
+    height: 60dvh;
+    background: rgb(255, 239, 217);
+    text-align: center;
+    place-content: center;
+    display: block;
+    border: 1px solid rgb(0, 0, 0);
+}
+
+.ordem h2{
+    font-size: 3rem;
+    color: #000000;
+    letter-spacing: 2px;
+    margin: 30px;
+}
+
+.ordem #cabecalho{
+    margin: 40px 20px;
+    text-align: left;
+    font-size: 30px;
+}
+
+.ordem #metodos {
+    margin: 8% 5%;
+    padding: 3%;
+    border: 1px solid rgb(0,0,0);
+    font-size: 36px;
+}
+
+.cardapio {
+    width: 100dvh;
+    height: 80dvh;
+}
+
+.cardapio .hard {
+    background: rgb(22, 22, 22);
+    color: rgb(255, 208, 0);
+    font-size: 3rem;
+    letter-spacing: 4px;
+    border: none;
+}
+
+.cardapio .hard small{
+    font-style: italic;
+    font-weight: lighter;
+}
+
+.page {
+    background: rgb(255, 255, 255);
+    color: black;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgb(0,0,0);
+}
