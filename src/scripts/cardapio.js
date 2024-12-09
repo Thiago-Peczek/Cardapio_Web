@@ -44,15 +44,18 @@ function abrirModal(a){
     modal.classList.add('abrir')//adiciona uma classe chama abrir
     if(a==0){
         btntxt.innerHTML = 'Criar';
+        btntxt.id='create'
         title.innerHTML = 'Adicionar prato';
     }else{
         btntxt.innerHTML = 'Atualizar';
+        btntxt.id='update'
         title.innerHTML = 'Atualizar prato';
     }
 
     modal.addEventListener('click', (e) => {
         if(e.target.id == 'fechar' || e.target.id == 'janelaCadastro'){ //caso clique em fechar ou fora da tela
             modal.classList.remove('abrir')//remove a classe abrir
+            btntxt.id='btn';
         }
     })
 }
