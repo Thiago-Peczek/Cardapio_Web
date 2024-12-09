@@ -4,23 +4,41 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Great Vibes', cursive;
+    font-family: 'Great Vibes', sans-serif;
 }
 
 body {
-    display: flex;
-    place-content: center;
-    padding: 5% 0;
-    height: 100%;
-    width: 100%;
+    width: 100dvw;
+    height: 100dvh;
     overflow: hidden;
-    background: rgb(255, 187, 0);
+    background-image: url(./images/mesa.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+button {
+    background-color: #f3f3f300;
+    color: rgb(0, 0, 0);
+    padding: 0.75rem;
+    border: 1px line black;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 36px;
+    width: 70%;
+  }
+
+.principal {
+    width: 100dvw;
+    height: 90dvh;
+    display: flex;
+    justify-content: center;
+    align-items: end;
 }
 
 .ordem {
-    margin: 5%;
     padding: 20px;
-    width: 40dvh;
+    margin-right: 6dvw;
+    width: 20dvw;
     height: 60dvh;
     background: rgb(255, 239, 217);
     text-align: center;
@@ -33,24 +51,44 @@ body {
     font-size: 3rem;
     color: #000000;
     letter-spacing: 2px;
-    margin: 30px;
+    margin: 20px;
 }
 
 .ordem #cabecalho{
-    margin: 40px 20px;
+    margin: 30px 20px;
     text-align: left;
     font-size: 30px;
 }
 
-.ordem #metodos {
-    margin: 8% 5%;
-    padding: 3%;
-    border: 1px solid rgb(0,0,0);
-    font-size: 36px;
+.ordem label{
+    font-weight: 400;
+}
+
+.ordem input[type="text"]{
+    background: transparent;
+    border: none;
+    border-bottom:  1px solid rgb(0,0,0);
+    width: 70%;
+    border-radius: 0px;
+}
+
+.ordem input[type="text"]:focus{
+    outline: none;
+}
+
+.ordem .metodos {
+    margin: 4% 5%;
+    padding: 0;
+    width: 90%;
+    border: none;
+    border-bottom: 1px solid rgb(0,0,0);
+    font-size: 30px;
+    border-radius: 0px;
+    text-align: left;
 }
 
 .cardapio {
-    width: 100dvh;
+    width: 60dvw;
     height: 80dvh;
 }
 
@@ -78,4 +116,115 @@ body {
     align-items: center;
     gap: 10px;
     border: 1px solid rgb(0,0,0);
+}
+
+.janela {
+    width: 100dvw;
+    height: 100dvh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    background-color: #00000088;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.modal {
+    width: 30%;
+    height: 86%;
+    min-width: 400px;
+    min-height: 400px;
+    background-color: rgb(255, 239, 217);
+    padding: 20px 50px;
+    border-radius: 10px;
+}
+
+.modal h1{
+    text-align: center;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label{
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+input[type="text"],[type="number"],textarea{
+    font-family: sans-serif;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1.2rem;
+}
+
+#price, #nome{
+    margin-left: 1dvw;
+    width: 66%;
+}
+
+.picture{
+    display: flex;
+    width: 100%;
+    aspect-ratio: 16/9;
+    background-color: #ddd;
+    align-items: center;
+    color: #777;
+    justify-content: center;
+    border: 2px dashed;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.picture:hover{
+    color: #555;
+    background: #ccc;
+}
+
+.picture_img{
+    max-width: 100%;
+    max-height: 276px;
+}
+
+#image{
+    display: none;
+}
+
+textarea{
+    height: 150px;
+
+}
+
+#botao{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+form button{
+    width: 50%;
+}
+
+.fechar {
+    font-family: sans-serif;
+    position: relative;
+    top: -10px;
+    left: -40px;
+    width: 34px;
+    height: 30px;
+    border: 0;
+    cursor: pointer;
+}
+
+.janela.abrir {
+    display: flex;
 }

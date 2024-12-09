@@ -7,31 +7,64 @@
     <title>Restaurante</title>
 </head>
 <body>
-    <div class="ordem">
-        <h2>Qual o seu pedido</h2>
-        <div id="cabecalho">
-            <small>Nome:_____________</small>
-            <small>Data:__/__/____</small>
+    <div class="principal">
+        <div class="ordem">
+            <h2>Qual o seu pedido</h2>
+            <div id="cabecalho">
+                <small>Nome: </small>
+                <input type="text">
+                <small>Data:__/__/____</small>
+            </div>
+            <label for="prato">Seu pedido: </label>
+            <input type="text" id="prato">
+            <button onclick="abrirModal(0)"class="metodos" id="post">Adicionar prato</button>
+            <button onclick="abrirModal(1)" class="metodos" id="put">Atualizar prato</button>
+            <button class="metodos" id="delete">Deletar prato</button>
         </div>
-        
-        <div id="metodos">Adicionar prato</div>
-        <div id="metodos">Atualizar prato</div>
-        <div id="metodos">Deletar prato</div>
+        <div class="cardapio">
+            <div class="hard"><h1>Cardapio</h1></div>
+            <div class="hard"></div>
+            <div>
+                <!--aqui é onde ficará a pagina-->
+            </div>
+            <div>
+                <!--aqui é onde ficará o verso da pagina-->
+            </div>
+            <!--mais divs deverão ser criadas ao terminar de ocupar todo o espaço do cardapio-->
+            <div class="hard"></div>
+            <div class="hard">Feito por <small>~ Henrique Meneses<br>~ Paulo Roberto<br>~ Thiago Tanaka</small></div>
+        </div>
     </div>
-    <div class="cardapio">
-        <div class="hard"><h1>Cardapio</h1></div>
-        <div class="hard"></div>
-        <div>
-            <!--aqui é onde ficará a pagina-->
+    
+
+    <div class="janela" id="janelaCadastro">
+        <div class="modal">
+            <img src="./images/back.png" class="fechar" id="fechar"">
+            <h1>Adicionar um prato</h1>
+            <form id="cadastroForm">
+                <div>
+                    <label for="nome">Nome do Prato</label>
+                    <input type="text" id="nome" placeholder="Nome do Prato">
+                </div>
+                
+                <label for="description">Descrição</label>
+                <textarea style="resize: none;" type="text" id="description" placeholder="Descrição do Prato"></textarea>
+                <div>
+                    <label for="price">Preço</label>
+                    <input type="number" id="price" placeholder="00.00">
+                </div>
+                <label class="picture" for="image"><span class="picture_image"></span></label>
+                <input type="file" accept="image/*" name="image" id="image"/>
+                
+                <div id="botao">
+                    <button type="submit" id="btn"></button>
+                </div>
+
+            </form>
         </div>
-        <div>
-            <!--aqui é onde ficará o verso da pagina-->
-        </div>
-        <!--mais divs deverão ser criadas ao terminar de ocupar todo o espaço do cardapio-->
-        <div class="hard"></div>
-        <div class="hard">Feito por <small>~ Henrique Meneses<br>~ Paulo Roberto<br>~ Thiago Tanaka</small></div>
     </div>
 
+    
     <script src="./scripts/cardapio.js"></script>
     <script src="./scripts/jquery.js"></script>
     <script src="./scripts/turn.js"></script>

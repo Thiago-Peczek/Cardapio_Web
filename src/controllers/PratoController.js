@@ -1,4 +1,4 @@
-const PratoRepository = require ("../repository/PratoRepository")
+const PratoRepository = require ("../repositories/PratoRepository")
 
 class PratoController {
   async index(request, response) {

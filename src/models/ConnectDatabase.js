@@ -2,7 +2,7 @@ const mysql = require("mysql2/promise");
 
 const client = mysql.createPool({
     host: "localhost",
-    port: 3305,
+    port: 3000,
     user: "root",
     password: "Admin",
     database: "cardapio"

@@ -36,5 +36,54 @@ function criarPrato(prato) {
     return divPrato;  // Retorna o elemento para ser inserido no DOM
 }
 
+// Função para a Janela de POST ou PUT
+function abrirModal(a){
+    const modal = document.getElementById('janelaCadastro')
+    const btntxt = document.getElementById('btn')
+    modal.classList.add('abrir')//adiciona uma classe chama abrir
+    if(a==0){
+        btntxt.innerHTML = 'Criar';
+    }else{
+        btntxt.innerHTML = 'Atualizar';
+    }
+
+    modal.addEventListener('click', (e) => {
+        if(e.target.id == 'fechar' || e.target.id == 'janelaCadastro'){ //caso clique em fechar ou fora da tela
+            modal.classList.remove('abrir')//remove a classe abrir
+        }
+    })
+}
+
 // Chama a função para carregar os pratos assim que a página for carregada
 document.addEventListener('DOMContentLoaded', carregarCardapio);
+
+const inputFile = document.querySelector("#image");
+const pictureImage = document.querySelector(".picture_image");
+const pictureImageTxt = 'Escolha uma imagem';
+pictureImage.innerHTML = pictureImageTxt;
+
+//Ao adicinar um arquivo no inputFile mostra a imagem
+inputFile.addEventListener('change', function(e) { 
+    const inputTarget = e.target;
+    const file = inputTarget.files[0];
+
+    if (file){
+        const reader = new FileReader();
+
+        reader.addEventListener('load', function(e) {
+            const readerTarget = e.target;
+
+            const img = document.createElement('img');
+            img.src = readerTarget.result;
+            img.classList.add('picture_img');
+            pictureImage.innerHTML = '';
+
+            pictureImage.appendChild(img);
+        });
+
+        reader.readAsDataURL(file);
+    }else {
+        pictureImage.innerHTML = pictureImageTxt;
+    }
+    
+});
