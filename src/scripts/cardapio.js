@@ -40,11 +40,14 @@ function criarPrato(prato) {
 function abrirModal(a){
     const modal = document.getElementById('janelaCadastro')
     const btntxt = document.getElementById('btn')
+    const title = document.getElementById('titulo')
     modal.classList.add('abrir')//adiciona uma classe chama abrir
     if(a==0){
         btntxt.innerHTML = 'Criar';
+        title.innerHTML = 'Adicionar prato';
     }else{
         btntxt.innerHTML = 'Atualizar';
+        title.innerHTML = 'Atualizar prato';
     }
 
     modal.addEventListener('click', (e) => {
