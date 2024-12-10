@@ -105,6 +105,7 @@ button {
     font-weight: lighter;
 }
 
+
 .page {
     background: rgb(255, 255, 255);
     color: black;
@@ -127,12 +128,32 @@ button {
     color: rgb(0, 0, 0);
 }
 
+.titulo-tipo {
+    background-color: #929292; /* Cor de fundo diferente para o título */
+    padding: 15px; /* Espaçamento interno */
+    border-radius: 8px; /* Bordas arredondadas */
+    margin-bottom: 20px; /* Espaçamento abaixo do título */
+    text-align: center; /* Centraliza o texto */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra leve */
+}
+
+.titulo-tipo h2 {
+    margin: 0; /* Remove a margem padrão do h2 */
+    font-size: 4rem;
+    color: rgb(255, 208, 0); /* Cor do texto do título */
+}
+
+.hard h3{
+    color: white;
+    font-size: 2rem;
+}
+
 /* Container principal do prato */
 .prato {
     border: 2px solid #000; /* Borda externa */
     border-radius: 8px; /* Bordas arredondadas */
     padding: 10px;
-    width: 60%; /* Largura fixa */
+    width: 86%; /* Largura fixa */
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -165,14 +186,14 @@ button {
 /* Conteúdo do prato (imagem e descrição) */
 .prato-content {
     display: flex;
-    flex-direction: column;
+    flex-direction:row;
     align-items: center; /* Centraliza o conteúdo */
     gap: 8px; /* Espaço entre imagem e descrição */
 }
 
 /* Imagem do prato */
 .prato-imagem {
-    width: 100%; /* Largura da imagem adaptável ao prato */
+    width: 50%; /* Largura da imagem adaptável ao prato */
     height: auto;
     border-radius: 4px; /* Bordas arredondadas */
     object-fit: cover; /* Mantém proporção da imagem */
@@ -183,7 +204,7 @@ button {
 .prato-descricao {
     color: #666;
     font-size: 1.4rem;
-    text-align: center; /* Centraliza o texto */
+    text-align: left; /* alinha à esquerda */
 }
 
 .prato img {

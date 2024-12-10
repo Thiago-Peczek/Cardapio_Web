@@ -1,4 +1,6 @@
 let pratos = []; // Variável global para armazenar os pratos
+let pratosPorPagina = 2; // Defina quantos pratos por página
+let paginaAtual = 0; // Página atual
 
 async function carregarCardapio() {
     try {
@@ -20,12 +22,12 @@ function exibirCardapio(pratosParaExibir) {
 
     // CAPA INICIAL (Frente e Verso)
     const capaFrente = document.createElement("div");
-    capaFrente.className = "hard page shadow";
+    capaFrente.className = "hard";
     capaFrente.innerHTML = "<h1>Cardápio</h1>";
     cardapioDiv.appendChild(capaFrente);
 
     const capaVerso = document.createElement("div");
-    capaVerso.className = "hard page shadow";
+    capaVerso.className = "hard";
     cardapioDiv.appendChild(capaVerso);
 
     // Agrupar pratos por tipo
@@ -37,29 +39,59 @@ function exibirCardapio(pratosParaExibir) {
         pratosPorTipo[prato.tipo].push(prato);
     });
 
-    // Adiciona as páginas agrupadas por tipo de prato
+    let totalPaginas = 0;
+
     Object.keys(pratosPorTipo).forEach((tipo) => {
-        // Cria uma nova página para cada tipo
-        const paginaTipo = document.createElement("div");
-        paginaTipo.className = "page shadow";
-
-        // Adiciona o título do tipo
-        const tituloTipo = document.createElement("h2");
-        tituloTipo.textContent = tipo; // Nome do tipo do prato
-        paginaTipo.appendChild(tituloTipo);
-
-        // Adiciona os pratos do tipo
-        pratosPorTipo[tipo].forEach((prato) => {
-            const pratoDiv = criarPrato(prato);
-            paginaTipo.appendChild(pratoDiv);
-        });
-
-        cardapioDiv.appendChild(paginaTipo);
+        // Obter os pratos do tipo
+        const pratosParaExibirNaPagina = pratosPorTipo[tipo];
+    
+        // Verifica se há pratos para exibir
+        if (pratosParaExibirNaPagina.length > 0) {
+            // Adiciona o título do tipo
+            const tituloTipo = document.createElement("h2");
+            tituloTipo.textContent = tipo; // Nome do tipo do prato
+            console.log("Título do tipo:", tipo); // Verifica se o tipo está correto
+            
+            // Cria uma nova div para o título com uma classe específica
+            const tituloDiv = document.createElement("div");
+            tituloDiv.className = "titulo-tipo"; // Classe específica para o título
+            tituloDiv.appendChild(tituloTipo);
+            
+            cardapioDiv.appendChild(tituloDiv); // Adiciona a div do título ao cardápio
+    
+            // Adiciona os pratos do tipo em pares
+            for (let i = 0; i < pratosParaExibirNaPagina.length; i += pratosPorPagina) {
+                const paginaPratos = document.createElement("div");
+                paginaPratos.className = "page";
+    
+                // Adiciona até dois pratos por página
+                for (let j = 0; j < pratosPorPagina; j++) {
+                    if (i + j < pratosParaExibirNaPagina.length) {
+                        const pratoDiv = criarPrato(pratosParaExibirNaPagina[i + j]);
+                        paginaPratos.appendChild(pratoDiv);
+                    }
+                }
+    
+                // Adiciona a página de pratos ao cardápio
+                cardapioDiv.appendChild(paginaPratos);
+                totalPaginas++; // Incrementa o contador de páginas
+            }
+        }
+        
     });
 
-    const contracapaVerso = document.createElement("div");
-    contracapaVerso.className = "hard page";
-    cardapioDiv.appendChild(contracapaVerso);
+    
+    if (totalPaginas % 2 !== 0) {
+        const paginaReserva = document.createElement("div");
+        paginaReserva.className = "page"; // Classe para a página reserva
+        cardapioDiv.appendChild(paginaReserva); // Adiciona a página reserva
+    }
+    
+    // Adiciona a contracapa
+    const contracapaDiv = document.createElement("div");
+    contracapaDiv.className = "hard"; // Classe para a contracapa
+    contracapaDiv.innerHTML = "<h3>Obrigado por escolher nosso cardápio!</h3><p>Esperamos que você aproveite!</p>";
+    cardapioDiv.appendChild(contracapaDiv);
 
     // Adiciona contracapa (frente e verso)
     const contracapaFrente = document.createElement("div");
@@ -95,8 +127,7 @@ function criarPrato(prato) {
     `;
 
     return divPrato; // Retorna o elemento criado
-}
-
+} 
 
 // Função para filtrar pratos
 function filtrarPratos() {
@@ -196,3 +227,29 @@ inputFile.addEventListener('change', function(e) {
     }
     
 });
+
+
+async function handleDelete() {
+    const pratoNome = document.getElementById('prato').value.trim();
+    if (!pratoNome) {
+        alert("Por favor, insira o nome do prato a ser deletado.");
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:3000/pratos/${pratoNome}`, {
+            method: 'DELETE',
+        });
+
+        if (response.status === 204) {
+            alert("Prato deletado com sucesso!");
+            carregarCardapio(); // Atualiza o cardápio
+        } else {
+            const error = await response.json();
+            alert(`Erro: ${error.error}`);
+        }
+    } catch (error) {
+        console.error("Erro ao deletar o prato:", error);
+        alert("Não foi possível excluir o prato. Tente novamente mais tarde.");
+    }
+}
