@@ -7,6 +7,16 @@ class PratoController {
     response.json(prato);
   }
 
+  async typeindex(request, response) {
+    try {
+        const tipos = await PratoRepository.getTipo();
+        response.json(tipos);
+    } catch (error) {
+        console.error("Erro ao buscar tipos:", error.message);
+        response.status(500).json({ error: "Erro ao buscar tipos" });
+    }
+  }
+
   async show(request, response) {
     // Obter um registro
     const { nome } = request.params;

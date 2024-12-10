@@ -10,6 +10,13 @@ class PratoRepository {
         return rows;
     }
 
+    async getTipo(){
+        const rows = await db.query(`
+            SELECT idTipo, nome from tipos
+            `);
+            return rows;
+    }
+
     async getPratoByNome(nome) {
         const [row] = await db.query(`
             SELECT p.id, p.nome, p.descricao, p.preco, t.nome AS tipo, p.imagem

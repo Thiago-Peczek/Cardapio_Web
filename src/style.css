@@ -120,6 +120,78 @@ button {
     border: 1px solid rgb(0,0,0);
 }
 
+.page h2 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 10px;
+    color: rgb(0, 0, 0);
+}
+
+/* Container principal do prato */
+.prato {
+    border: 2px solid #000; /* Borda externa */
+    border-radius: 8px; /* Bordas arredondadas */
+    padding: 10px;
+    width: 60%; /* Largura fixa */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background-color: #f9f9f9; /* Fundo claro */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2); /* Sombra para destaque */
+    margin: 10px; /* Espaçamento entre pratos */
+}
+
+/* Cabeçalho do prato (nome e preço) */
+.prato-header {
+    display: flex;
+    justify-content: space-between; /* Nome e preço em lados opostos */
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* Nome do prato */
+.prato-nome {
+    color: #333;
+    font-size: 1.5rem;
+}
+
+/* Preço */
+.prato-preco {
+    color: #ff7800; /* Cor laranja para destaque */
+    font-size: 1.2rem;
+}
+
+/* Conteúdo do prato (imagem e descrição) */
+.prato-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza o conteúdo */
+    gap: 8px; /* Espaço entre imagem e descrição */
+}
+
+/* Imagem do prato */
+.prato-imagem {
+    width: 100%; /* Largura da imagem adaptável ao prato */
+    height: auto;
+    border-radius: 4px; /* Bordas arredondadas */
+    object-fit: cover; /* Mantém proporção da imagem */
+    border: 1px solid #ddd; /* Linha fina ao redor da imagem */
+}
+
+/* Descrição do prato */
+.prato-descricao {
+    color: #666;
+    font-size: 1.4rem;
+    text-align: center; /* Centraliza o texto */
+}
+
+.prato img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
 .cardapio .shadow{
     box-shadow: 0 4px 10px #000000;
 }
@@ -139,7 +211,7 @@ button {
 
 .modal {
     width: 30%;
-    height: 86%;
+    height: 90%;
     min-width: 400px;
     min-height: 400px;
     background-color: rgb(255, 239, 217);
@@ -164,13 +236,18 @@ label{
     font-weight: bold;
 }
 
-input[type="text"],[type="number"],textarea{
+input[type="text"],[type="number"],textarea, select{
     font-family: sans-serif;
     padding: 0.5rem;
     margin-bottom: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1.2rem;
+}
+
+select{
+    margin-bottom: 0.5rem;
+    margin-left: 1rem;
 }
 
 #price, #nome{

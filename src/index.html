@@ -23,11 +23,6 @@
         </div>
 
         <div class="cardapio">
-            <div class="hard"><h1>Cardapio</h1></div>
-            <div class="hard"></div>
-            <!-- As divs criadas vão aqui -->
-            <div class="hard"></div>
-            <div class="hard">Feito por <small>~ Henrique Meneses<br>~ Paulo Roberto<br>~ Thiago Tanaka</small></div>
         </div>
     </div>
     
@@ -48,6 +43,12 @@
                     <label for="price">Preço</label>
                     <input type="number" id="price" placeholder="00.00">
                 </div>
+                <div>
+                    <label for="tipos">Tipo do Prato</label>
+                    <select id="tipos" required>
+                        <!-- As opções serão carregadas dinamicamente -->
+                    </select>
+                </div>
                 <label class="picture" for="image"><span class="picture_image"></span></label>
                 <input type="file" accept="image/*" name="image" id="image"/>
                 
@@ -63,8 +64,5 @@
     <script src="./scripts/cardapio.js"></script>
     <script src="./scripts/jquery.js"></script>
     <script src="./scripts/turn.js"></script>
-    <script>
-        $(".cardapio").turn();
-    </script>
 </body>
 </html>

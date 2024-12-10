@@ -1,5 +1,5 @@
 {
-  "name": "trabalho-final-de-web",
+  "name": "cardapio",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.21.2",
-    "mysql": "^2.18.1",
-    "mysql2": "^3.11.5"
+    "mysql2": "^3.11.5",
+    "nodemon": "^3.1.7"
   }
 }

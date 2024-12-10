@@ -1,74 +1,138 @@
-// Função para buscar todos os pratos e adicionar ao DOM
-/*async function carregarCardapio() {
+let pratos = []; // Variável global para armazenar os pratos
+
+async function carregarCardapio() {
     try {
-        const response = await fetch("http://localhost:3000/cardapio");  // A rota para obter todos os pratos
-        if (!response.ok) {
-            throw new Error("Falha ao carregar cardápio");
-        }
+        const response = await fetch("http://localhost:3000/cardapio");
+        if (!response.ok) throw new Error("Erro ao carregar o cardápio");
 
-        const pratos = await response.json(); // Espera que a resposta seja um JSON com os pratos
-        const cardapioContainer = document.querySelector(".cardapio"); // Onde os pratos serão inseridos
+        pratos = await response.json(); // Armazena os pratos na variável global
+        exibirCardapio(pratos); // Exibe os pratos inicialmente
 
-        // Seleciona todas as divs com a classe hard
-        const hardDivs = cardapioContainer.querySelectorAll(".hard");
-        console.log("Número de divs hard:", hardDivs.length); // Verifica a quantidade de divs hard
-
-        // Para cada prato, cria uma div e insere no container
-        pratos.forEach(prato => {
-            const divPrato = criarPrato(prato);  // Cria a div do prato
-            // Insere a nova div do prato no final do container
-            cardapioContainer.appendChild(divPrato);
-        });
-        
+        console.log("Cardápio carregado com sucesso.");
     } catch (error) {
-        console.error("Erro ao carregar cardápio:", error);
+        console.error("Erro ao carregar o cardápio:", error);
     }
-}*/
+}
 
-// Função para criar a estrutura de cada prato no HTML
+function exibirCardapio(pratosParaExibir) {
+    const cardapioDiv = document.querySelector(".cardapio");
+    cardapioDiv.innerHTML = ""; // Limpa as páginas existentes.
+
+    // CAPA INICIAL (Frente e Verso)
+    const capaFrente = document.createElement("div");
+    capaFrente.className = "hard page shadow";
+    capaFrente.innerHTML = "<h1>Cardápio</h1>";
+    cardapioDiv.appendChild(capaFrente);
+
+    const capaVerso = document.createElement("div");
+    capaVerso.className = "hard page shadow";
+    cardapioDiv.appendChild(capaVerso);
+
+    // Agrupar pratos por tipo
+    const pratosPorTipo = {};
+    pratosParaExibir.forEach((prato) => {
+        if (!pratosPorTipo[prato.tipo]) {
+            pratosPorTipo[prato.tipo] = [];
+        }
+        pratosPorTipo[prato.tipo].push(prato);
+    });
+
+    // Adiciona as páginas agrupadas por tipo de prato
+    Object.keys(pratosPorTipo).forEach((tipo) => {
+        // Cria uma nova página para cada tipo
+        const paginaTipo = document.createElement("div");
+        paginaTipo.className = "page shadow";
+
+        // Adiciona o título do tipo
+        const tituloTipo = document.createElement("h2");
+        tituloTipo.textContent = tipo; // Nome do tipo do prato
+        paginaTipo.appendChild(tituloTipo);
+
+        // Adiciona os pratos do tipo
+        pratosPorTipo[tipo].forEach((prato) => {
+            const pratoDiv = criarPrato(prato);
+            paginaTipo.appendChild(pratoDiv);
+        });
+
+        cardapioDiv.appendChild(paginaTipo);
+    });
+
+    const contracapaVerso = document.createElement("div");
+    contracapaVerso.className = "hard page";
+    cardapioDiv.appendChild(contracapaVerso);
+
+    // Adiciona contracapa (frente e verso)
+    const contracapaFrente = document.createElement("div");
+    contracapaFrente.className = "hard";
+    contracapaFrente.innerHTML = `
+        <div>
+            Feito por <br><small>~ Henrique Meneses<br>~ Paulo Roberto<br>~ Thiago Tanaka</small>
+        </div>`;
+    cardapioDiv.appendChild(contracapaFrente);
+
+    // Inicializa o Turn.js
+    $(".cardapio").turn({
+        width: "60dvw", // Tamanho definido no CSS.
+        height: "80dvh", // Altura definida no CSS.
+        autoCenter: true,
+    });
+}
 
 function criarPrato(prato) {
     const divPrato = document.createElement('div');
-    divPrato.className = 'page'; // Adiciona uma classe para estilização, se necessário
+    divPrato.className = 'prato'; // Adiciona a classe 'prato'
 
+    // Define o conteúdo HTML do prato
     divPrato.innerHTML = `
-        <img src="${prato.imagem}" alt="${prato.nome}" style="width: 200px; height: auto; border-radius: 10px;">
-        <h3>${prato.nome}</h3>
-        <p>${prato.descricao}</p>
-        <p>Preço: R$ ${prato.preco}</p>
+        <div class="prato-header">
+            <h2 class="prato-nome">${prato.nome}</h2>
+            <span class="prato-preco">R$ ${parseFloat(prato.preco).toFixed(2)}</span>
+        </div>
+        <div class="prato-content">
+            <img src="${prato.imagem}" alt="${prato.nome}" class="prato-imagem">
+            <p class="prato-descricao">${prato.descricao}</p>
+        </div>
     `;
 
-    return divPrato;  // Retorna o elemento para ser inserido no DOM
+    return divPrato; // Retorna o elemento criado
 }
 
-//função do chatgpt
-async function carregarCardapio() {
+
+// Função para filtrar pratos
+function filtrarPratos() {
+    const input = document.getElementById("prato").value.toLowerCase();
+    const pratosFiltrados = pratos.filter(prato => prato.nome.toLowerCase().includes(input));
+    exibirCardapio(pratosFiltrados); // Atualiza a exibição com os pratos filtrados
+}
+
+// Adiciona o evento de input ao campo de texto
+document.getElementById("prato").addEventListener("input", filtrarPratos);
+
+// Carrega os pratos ao iniciar
+carregarCardapio();
+
+
+async function carregarTipos() {
     try {
-        const response = await fetch("http://localhost:3000/cardapio"); // Rota para obter os pratos
-        if (!response.ok) {
-            throw new Error("Falha ao carregar cardápio");
-        }
+        const response = await fetch("http://localhost:3000/tipo");
+        if (!response.ok) throw new Error("Erro ao carregar tipos");
 
-        const pratos = await response.json(); // Dados do cardápio
-        const paginaAlvo = document.querySelector('.page-wrapper[page="3"]'); // Exemplo: seleciona a página 3
+        const tipos = await response.json();
+        const tiposSelect = document.getElementById("tipos");
+        tiposSelect.innerHTML = ""; // Limpa as opções existentes
 
-        if (!paginaAlvo) {
-            throw new Error("Página alvo não encontrada");
-        }
-
-        const conteudoPagina = paginaAlvo.querySelector('.hard.page.p3.odd');
-
-        pratos.forEach(prato => {
-            const divPrato = criarPrato(prato); // Criação da div do prato
-            conteudoPagina.appendChild(divPrato); // Insere dentro da página específica
+        tipos.forEach(tipo => {
+            const option = document.createElement("option");
+            option.value = tipo.idTipo; // O valor que será utilizado
+            option.textContent = tipo.nome; // O nome do tipo que será exibido
+            tiposSelect.appendChild(option);
         });
 
+        console.log("Tipos carregados com sucesso.");
     } catch (error) {
-        console.error("Erro ao carregar cardápio:", error);
+        console.error("Erro ao carregar tipos:", error);
     }
 }
-
-
 
 
 // Função para a Janela de POST ou PUT
@@ -77,6 +141,10 @@ function abrirModal(a){
     const btntxt = document.getElementById('btn')
     const title = document.getElementById('titulo')
     modal.classList.add('abrir')//adiciona uma classe chama abrir
+
+    // Carregar tipos de pratos
+    carregarTipos();
+
     if(a==0){
         btntxt.innerHTML = 'Criar';
         btntxt.id='create'
@@ -95,8 +163,7 @@ function abrirModal(a){
     })
 }
 
-// Chama a função para carregar os pratos assim que a página for carregada
-document.addEventListener('DOMContentLoaded', carregarCardapio);
+
 
 
 const inputFile = document.querySelector("#image");

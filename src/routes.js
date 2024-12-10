@@ -8,6 +8,8 @@ routes.get("/", (req, res) => {
   });
 // Lista todos os pratos
 routes.get("/cardapio", PratoController.index);
+// Lista todos os tipos
+routes.get("/tipo", PratoController.typeindex);
 // Busca um prato pelo nome
 routes.get("/cardapio/:nome", PratoController.show);
 // Adiciona um novo prato
