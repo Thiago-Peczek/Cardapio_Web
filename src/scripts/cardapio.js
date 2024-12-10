@@ -1,7 +1,7 @@
 // Função para buscar todos os pratos e adicionar ao DOM
 async function carregarCardapio() {
     try {
-        const response = await fetch("/cardapio");  // A rota para obter todos os pratos
+        const response = await fetch("http://localhost:3000/cardapio");  // A rota para obter todos os pratos
         if (!response.ok) {
             throw new Error("Falha ao carregar cardápio");
         }
@@ -23,6 +23,7 @@ async function carregarCardapio() {
 }
 
 // Função para criar a estrutura de cada prato no HTML
+
 function criarPrato(prato) {
     const divPrato = document.createElement('div');
     divPrato.className = 'page';  // Define a classe para o estilo CSS
@@ -61,7 +62,7 @@ function abrirModal(a){
 }
 
 // Chama a função para carregar os pratos assim que a página for carregada
-document.addEventListener('DOMContentLoaded', carregarCardapio);
+/*document.addEventListener('DOMContentLoaded', carregarCardapio);*/
 
 const inputFile = document.querySelector("#image");
 const pictureImage = document.querySelector(".picture_image");

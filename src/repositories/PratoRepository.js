@@ -35,7 +35,7 @@ class PratoRepository {
     }
 
     async delete(nome) {
-        const deletePrato = await db.quary(`
+        const deletePrato = await db.query(`
         DELETE FROM pratos WHERE nome = ?;
         `,
         [nome]

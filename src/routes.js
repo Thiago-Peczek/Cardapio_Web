@@ -3,6 +3,9 @@ const PratoController = require("./controllers/PratoController");
 
 const routes = Router();
 
+routes.get("/", (req, res) => {
+    res.send("Bem-vindo ao servidor!"); // Você pode customizar a resposta
+  });
 // Lista todos os pratos
 routes.get("/cardapio", PratoController.index);
 // Busca um prato pelo nome

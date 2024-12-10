@@ -2,10 +2,11 @@ const mysql = require("mysql2/promise");
 
 const client = mysql.createPool({
     host: "localhost",
-    port: 3000,
+    port: 3306,
     user: "root",
-    password: "Admin",
-    database: "cardapio"
+    password: "Macaco668/",
+    database: "cardapio",
+    connectionLimit: 10
 });
 
 const testConnection = async () => {
