@@ -237,7 +237,7 @@ async function handleDelete() {
     }
 
     try {
-        const response = await fetch(`http://localhost:3000/pratos/${pratoNome}`, {
+        const response = await fetch(`http://localhost:3000/cardapio/${pratoNome}`, {
             method: 'DELETE',
         });
 

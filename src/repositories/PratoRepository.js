@@ -42,12 +42,14 @@ class PratoRepository {
     }
 
     async delete(nome) {
-        const deletePrato = await db.query(`
-        DELETE FROM pratos WHERE nome = ?;
-        `,
-        [nome]
-        );
-        return deletePrato;
+        const prato = await db.query(`SELECT id FROM pratos WHERE nome = ?`, [nome]);
+        if (prato.length === 0) {
+            throw new Error("Prato não encontrado");
+        }
+    
+        const pratoId = prato[0].id;
+        await db.query(`DELETE FROM pratos WHERE id = ?`, [pratoId]);
+        return pratoId;
     }
 }
 

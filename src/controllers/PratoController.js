@@ -81,16 +81,18 @@ class PratoController {
   
 
   async delete(request, response) {
-
-    //Deletar um registro específico
     const { nome } = request.params;
 
     if (!nome) {
-      return response.status(400).json({ error: "Nome inválido." });
+        return response.status(400).json({ error: "Nome inválido." });
     }
-    await PratoRepository.delete(nome);
-    // 204: Not Content
-    response.sendStatus(204);
-  }
+
+    try {
+        await PratoRepository.delete(nome);
+        response.sendStatus(204); // Sucesso
+    } catch (error) {
+        response.status(404).json({ error: error.message });
+    }
+  } 
 }
 module.exports = new PratoController();
