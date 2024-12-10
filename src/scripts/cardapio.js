@@ -1,5 +1,5 @@
 // Função para buscar todos os pratos e adicionar ao DOM
-async function carregarCardapio() {
+/*async function carregarCardapio() {
     try {
         const response = await fetch("http://localhost:3000/cardapio");  // A rota para obter todos os pratos
         if (!response.ok) {
@@ -9,24 +9,27 @@ async function carregarCardapio() {
         const pratos = await response.json(); // Espera que a resposta seja um JSON com os pratos
         const cardapioContainer = document.querySelector(".cardapio"); // Onde os pratos serão inseridos
 
-        // Limpa qualquer conteúdo antigo
-        cardapioContainer.innerHTML = "";
+        // Seleciona todas as divs com a classe hard
+        const hardDivs = cardapioContainer.querySelectorAll(".hard");
+        console.log("Número de divs hard:", hardDivs.length); // Verifica a quantidade de divs hard
 
         // Para cada prato, cria uma div e insere no container
         pratos.forEach(prato => {
             const divPrato = criarPrato(prato);  // Cria a div do prato
-            cardapioContainer.appendChild(divPrato); // Adiciona no DOM
+            // Insere a nova div do prato no final do container
+            cardapioContainer.appendChild(divPrato);
         });
+        
     } catch (error) {
         console.error("Erro ao carregar cardápio:", error);
     }
-}
+}*/
 
 // Função para criar a estrutura de cada prato no HTML
 
 function criarPrato(prato) {
     const divPrato = document.createElement('div');
-    divPrato.className = 'page';  // Define a classe para o estilo CSS
+    divPrato.className = 'page'; // Adiciona uma classe para estilização, se necessário
 
     divPrato.innerHTML = `
         <img src="${prato.imagem}" alt="${prato.nome}" style="width: 200px; height: auto; border-radius: 10px;">
@@ -34,8 +37,39 @@ function criarPrato(prato) {
         <p>${prato.descricao}</p>
         <p>Preço: R$ ${prato.preco}</p>
     `;
+
     return divPrato;  // Retorna o elemento para ser inserido no DOM
 }
+
+//função do chatgpt
+async function carregarCardapio() {
+    try {
+        const response = await fetch("http://localhost:3000/cardapio"); // Rota para obter os pratos
+        if (!response.ok) {
+            throw new Error("Falha ao carregar cardápio");
+        }
+
+        const pratos = await response.json(); // Dados do cardápio
+        const paginaAlvo = document.querySelector('.page-wrapper[page="3"]'); // Exemplo: seleciona a página 3
+
+        if (!paginaAlvo) {
+            throw new Error("Página alvo não encontrada");
+        }
+
+        const conteudoPagina = paginaAlvo.querySelector('.hard.page.p3.odd');
+
+        pratos.forEach(prato => {
+            const divPrato = criarPrato(prato); // Criação da div do prato
+            conteudoPagina.appendChild(divPrato); // Insere dentro da página específica
+        });
+
+    } catch (error) {
+        console.error("Erro ao carregar cardápio:", error);
+    }
+}
+
+
+
 
 // Função para a Janela de POST ou PUT
 function abrirModal(a){
@@ -62,7 +96,8 @@ function abrirModal(a){
 }
 
 // Chama a função para carregar os pratos assim que a página for carregada
-/*document.addEventListener('DOMContentLoaded', carregarCardapio);*/
+document.addEventListener('DOMContentLoaded', carregarCardapio);
+
 
 const inputFile = document.querySelector("#image");
 const pictureImage = document.querySelector(".picture_image");

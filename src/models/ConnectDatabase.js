@@ -4,7 +4,7 @@ const client = mysql.createPool({
     host: "localhost",
     port: 3306,
     user: "root",
-    password: "Macaco668/",
+    password: "admin",
     database: "cardapio",
     connectionLimit: 10
 });

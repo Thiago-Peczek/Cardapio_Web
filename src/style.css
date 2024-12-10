@@ -110,12 +110,18 @@ button {
     color: black;
     font-size: 1.5rem;
     letter-spacing: 2px;
+    width: 100%;
+    height: 100%;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     gap: 10px;
     border: 1px solid rgb(0,0,0);
+}
+
+.cardapio .shadow{
+    box-shadow: 0 4px 10px #000000;
 }
 
 .janela {
