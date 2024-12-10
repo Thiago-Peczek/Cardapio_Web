@@ -58,7 +58,7 @@ function exibirCardapio(pratosParaExibir) {
             tituloDiv.appendChild(tituloTipo);
             
             cardapioDiv.appendChild(tituloDiv); // Adiciona a div do título ao cardápio
-    
+            
             // Adiciona os pratos do tipo em pares
             for (let i = 0; i < pratosParaExibirNaPagina.length; i += pratosPorPagina) {
                 const paginaPratos = document.createElement("div");
@@ -179,7 +179,7 @@ async function abrirModal(a){
     if(a==0){
         btntxt.innerHTML = 'Criar';
         btntxt.id='create'
-        title.innerHTML = 'Adicionar prato';
+        title.innerHTML = 'Adicionar prato';      
     }else{
         btntxt.innerHTML = 'Atualizar';
         btntxt.id='update'
@@ -367,6 +367,58 @@ document.addEventListener('DOMContentLoaded', () => {
                     alert('Erro ao atualizar prato.');
                 }
             }, 100); // Aguarda a leitura do FileReader
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.body.addEventListener('click', (e) => {
+        if (e.target.id === 'create') {
+            e.preventDefault(); // Evita o comportamento padrão do botão
+
+            const nomeInput = document.getElementById('nome');
+            const descricaoInput = document.getElementById('description');
+            const precoInput = document.getElementById('price');
+            const tiposSelect = document.getElementById('tipos');
+            const imagemInput = document.getElementById('image');
+            
+            const nome = nomeInput.value;
+            const descricao = descricaoInput.value;
+            const preco = parseFloat(precoInput.value);
+            const tipo = parseInt(tiposSelect.value);
+            let imagem = '';
+
+            // Verifica se há uma nova imagem para envio
+            if (imagemInput.files[0]) {
+                const fileName = imagemInput.files[0].name; // Obtém o nome do arquivo
+                imagem = `./images/${fileName}`; // Define o caminho da imagem
+            } else {
+                // Usa a imagem já exibida no modal, se nenhuma nova foi fornecida
+                const pictureImage = document.querySelector('.picture_img');
+                if (pictureImage) {
+                    imagem = pictureImage.src; // Mantém a imagem existente
+                }
+            }
+
+            try {
+                const response = fetch(`http://localhost:3000/cardapio`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ nome, descricao, preco, tipo, imagem }),
+                });
+                if (!response.ok) throw new Error('Erro ao criar prato.');
+
+                alert('Prato criado com sucesso!');
+                // Fecha o modal após a atualização bem-sucedida
+                document.getElementById('janelaCadastro').classList.remove('abrir');
+                carregarCardapio();
+            
+            } catch (error) {
+                console.error('Erro ao criar prato:', error);
+                alert('Erro ao criar prato.');
+            }
         }
     });
 });

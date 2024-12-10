@@ -29,12 +29,23 @@ class PratoRepository {
         return row;     
     }
 
-    async create({ nome, descricao, preco, tipo, imagem}) {
-        const result = await db.query(`
-            INSERT INTO pratos (nome, descricao, preco, tipo, imagem) VALUES (?, ?, ?, ?, ?)   
-            `,
+    async create({ nome, descricao, preco, tipo, imagem }) {
+        const result = await db.query(
+            "INSERT INTO pratos (nome, descricao, preco, tipo, imagem) VALUES (?, ?, ?, ?, ?)",
             [nome, descricao, preco, tipo, imagem]
         );
+    
+        // Retornando o prato criado, assumindo que o ID do prato é gerado automaticamente
+        const pratoCriado = {
+            id: result.insertId, // ID gerado pelo banco de dados
+            nome,
+            descricao,
+            preco,
+            tipo,
+            imagem,
+        };
+    
+        return pratoCriado;
     }
 
     async updatePrato(nomeAntigo, nome, descricao, preco, tipo, imagem) {

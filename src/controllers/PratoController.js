@@ -31,30 +31,29 @@ class PratoController {
 
   async store(request, response) {
     const { nome, descricao, preco, tipo, imagem } = request.body;
-    // Definindo regra de que o preenchimento de todos os campos é obrigatório
 
+    // Verificando se todos os campos obrigatórios foram preenchidos
     if (!nome || !descricao || !preco || !tipo || !imagem) {
-        return response.status(400).json
-        ({ error: "O preenchimento de todos os campos são obrigatórios." })
+        return response.status(400).json({ error: "O preenchimento de todos os campos é obrigatório." });
     }
-    //Definindo que o nome deve ser único para cada prato e obrigatório
-    if (nome) {
-      const pratoByNome = await PratoRepository.findByNome(nome);
-      if (pratoByNome) {
-          return response.status(400).json
-          ({ error: "Esse prato já foi cadastrado." });
-      }
-  }
-        //criando o prato gerado no banco de dados
+
+    // Verificando se o nome do prato já existe
+    const pratoByNome = await PratoRepository.getPratoByNome(nome);
+    if (pratoByNome) {
+        return response.status(400).json({ error: "Esse prato já foi cadastrado." });
+    }
+
+    // Criando o prato no banco de dados
     const prato = await PratoRepository.create({
-      nome,
-      descricao,
-      preco,
-      tipo,
-      imagem,
+        nome,
+        descricao,
+        preco,
+        tipo,
+        imagem,
     });
-       //respondendo com o prato criado
-    response.status(201).json(prato);
+
+    // Respondendo com o prato criado
+    return response.status(201).json(prato);
   }
 
   async update(request, response) {
