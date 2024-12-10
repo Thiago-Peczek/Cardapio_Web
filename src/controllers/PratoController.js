@@ -57,27 +57,27 @@ class PratoController {
     response.status(201).json(prato);
   }
 
-  async update(request,response) {
-    // atualizar um prato ja existente
-    const { nome } = request.params;
-    const { descricao, preco, tipo, imagem } = request.body;
-  
-    // verificando se todos os campos estão preenchidos
-    if (!descricao || !preco || !tipo || !imagem) {
-      return response.status(400).json({ error: "O preenchimento de todos os campos é obrigatório" });
+  async update(request, response) {
+    const { nome } = request.params; // Nome do prato enviado pela rota
+    const { nome: novoNome, descricao, preco, tipo, imagem } = request.body;
+
+    if (!nome || !novoNome || !descricao || !preco || !tipo || !imagem) {
+        return response.status(400).json({ error: 'Todos os campos são obrigatórios.' });
     }
-  
-    // verificando se o prato a ser atualizado existe
-    const prato = await PratoRepository.findByNome(nome);
-    if (!prato) {
-      return response.status(404).json({ error: "Prato não encontrado" });
+
+    try {
+        const success = await PratoRepository.updatePrato(nome, novoNome, descricao, preco, tipo, imagem);
+
+        if (success) {
+            response.status(200).json({ message: 'Prato atualizado com sucesso!' });
+        } else {
+            response.status(404).json({ error: 'Prato não encontrado.' });
+        }
+    } catch (error) {
+        console.error('Erro ao atualizar prato:', error);
+        response.status(500).json({ error: 'Erro ao atualizar prato.' });
     }
-  
-    // atualizando o prato
-    const updatedPrato = await PratoRepository.update(nome, { descricao, preco, tipo, imagem });
-  
-    response.json(updatedPrato);
-  }
+}
   
 
   async delete(request, response) {

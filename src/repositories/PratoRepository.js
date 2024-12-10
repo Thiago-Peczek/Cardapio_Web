@@ -37,9 +37,21 @@ class PratoRepository {
         );
     }
 
-    async update() {
-
+    async updatePrato(nomeAntigo, nome, descricao, preco, tipo, imagem) {
+        try {
+            const result = await db.query(`
+                UPDATE pratos
+                SET nome = ?, descricao = ?, preco = ?, tipo = ?, imagem = ?
+                WHERE nome = ?`,
+                [nome, descricao, preco, tipo, imagem, nomeAntigo]
+            );
+            return result.affectedRows > 0;
+        } catch (error) {
+            console.error("Erro ao atualizar prato:", error);
+            throw error;
+        }
     }
+    
 
     async delete(nome) {
         const prato = await db.query(`SELECT id FROM pratos WHERE nome = ?`, [nome]);

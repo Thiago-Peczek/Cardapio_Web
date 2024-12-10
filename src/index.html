@@ -41,7 +41,7 @@
                 <textarea style="resize: none;" type="text" id="description" placeholder="Descrição do Prato"></textarea>
                 <div>
                     <label for="price">Preço</label>
-                    <input type="number" id="price" placeholder="00.00">
+                    <input type="number" min="0" step=".01" id="price" placeholder="00.00">
                 </div>
                 <div>
                     <label for="tipos">Tipo do Prato</label>
@@ -51,6 +51,7 @@
                 </div>
                 <label class="picture" for="image"><span class="picture_image"></span></label>
                 <input type="file" accept="image/*" name="image" id="image"/>
+                <input type="hidden" id="caminhoImagem" name="caminhoImagem" />
                 
                 <div id="botao">
                     <button type="submit" id="btn"></button>

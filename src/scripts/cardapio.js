@@ -167,7 +167,7 @@ async function carregarTipos() {
 
 
 // Função para a Janela de POST ou PUT
-function abrirModal(a){
+async function abrirModal(a){
     const modal = document.getElementById('janelaCadastro')
     const btntxt = document.getElementById('btn')
     const title = document.getElementById('titulo')
@@ -184,6 +184,26 @@ function abrirModal(a){
         btntxt.innerHTML = 'Atualizar';
         btntxt.id='update'
         title.innerHTML = 'Atualizar prato';
+        
+        // Carregar dados do prato a ser atualizado
+        const nomePrato = document.getElementById('prato').value; // Nome do prato digitado
+
+        try {
+            const response = await fetch(`http://localhost:3000/cardapio/${nomePrato}`);
+            if (!response.ok) throw new Error('Erro ao carregar dados do prato.');
+
+            const prato = await response.json();
+
+            // Preencher os inputs do modal com os dados existentes
+            document.getElementById('nome').value = prato.nome;
+            document.getElementById('description').value = prato.descricao;
+            document.getElementById('price').value = prato.preco;
+            document.getElementById('tipos').value = prato.tipo; // Seleção do tipo
+            const pictureImage = document.querySelector('.picture_image');
+            pictureImage.innerHTML = `<img src="${prato.imagem}" class="picture_img">`;
+        } catch (error) {
+            console.error('Erro ao carregar dados do prato:', error);
+        }
     }
 
     modal.addEventListener('click', (e) => {
@@ -193,8 +213,6 @@ function abrirModal(a){
         }
     })
 }
-
-
 
 
 const inputFile = document.querySelector("#image");
@@ -229,6 +247,7 @@ inputFile.addEventListener('change', function(e) {
 });
 
 
+// Função para pegar o campo do "Seu pedido" e deletar
 async function handleDelete() {
     const pratoNome = document.getElementById('prato').value.trim();
     if (!pratoNome) {
@@ -253,3 +272,101 @@ async function handleDelete() {
         alert("Não foi possível excluir o prato. Tente novamente mais tarde.");
     }
 }
+
+const form = document.getElementById("cadastroForm");
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const inputFile = document.querySelector("#image");
+
+    if (inputFile) {
+        inputFile.addEventListener("change", function (e) {
+            const file = e.target.files[0];
+
+            if (file) {
+                // Supondo que o caminho base seja `/uploads/`
+                const caminhoImagem = `./images/${file.name}`;
+                console.log("Caminho da imagem:", caminhoImagem);
+
+                // Adicione o caminho a um campo oculto para envio posterior
+                const caminhoInput = document.getElementById("caminhoImagem");
+                if (caminhoInput) {
+                    caminhoInput.value = caminhoImagem;
+                } else {
+                    console.error("Campo oculto para caminho da imagem não encontrado.");
+                }
+            }
+        });
+    }
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Adiciona o evento quando o modal é aberto
+    document.body.addEventListener('click', (e) => {
+        if (e.target.id === 'update') {
+            e.preventDefault(); // Evita o comportamento padrão do botão
+
+            // Recupera os elementos do formulário
+            const nomeAntigoInput = document.getElementById('prato');
+            const nomeInput = document.getElementById('nome');
+            const descricaoInput = document.getElementById('description');
+            const precoInput = document.getElementById('price');
+            const tiposSelect = document.getElementById('tipos');
+            const imagemInput = document.getElementById('image');
+
+            // Verifica se todos os elementos existem
+            if (!nomeAntigoInput || !nomeInput || !descricaoInput || !precoInput || !tiposSelect || !imagemInput) {
+                console.error('Erro: Um ou mais elementos do formulário não foram encontrados.');
+                alert('Erro ao encontrar os elementos do formulário. Verifique se o modal foi aberto corretamente.');
+                return;
+            }
+
+            // Recupera os valores dos inputs
+            const nomeAntigo = nomeAntigoInput.value;
+            const nome = nomeInput.value;
+            const descricao = descricaoInput.value;
+            const preco = parseFloat(precoInput.value);
+            const tipo = parseInt(tiposSelect.value);
+            let imagem = '';
+
+            // Verifica se há uma nova imagem para envio
+            if (imagemInput.files[0]) {
+                const fileName = imagemInput.files[0].name; // Obtém o nome do arquivo
+                imagem = `./images/${fileName}`; // Define o caminho da imagem
+            } else {
+                // Usa a imagem já exibida no modal, se nenhuma nova foi fornecida
+                const pictureImage = document.querySelector('.picture_img');
+                if (pictureImage) {
+                    imagem = pictureImage.src; // Mantém a imagem existente
+                }
+            }
+            
+            // Aguarda a leitura da imagem (se aplicável)
+            console.log(JSON.stringify({ nome, descricao, preco, tipo, imagem }));
+            setTimeout(async () => {
+                try {
+                    const response = await fetch(`http://localhost:3000/cardapio/${nomeAntigo}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ nome, descricao, preco, tipo, imagem }),
+                    });
+
+                    if (!response.ok) throw new Error('Erro ao atualizar prato.');
+
+                    alert('Prato atualizado com sucesso!');
+                    // Fecha o modal após a atualização bem-sucedida
+                    document.getElementById('janelaCadastro').classList.remove('abrir');
+                    carregarCardapio();
+                
+                } catch (error) {
+                    console.error('Erro ao atualizar prato:', error);
+                    alert('Erro ao atualizar prato.');
+                }
+            }, 100); // Aguarda a leitura do FileReader
+        }
+    });
+});
