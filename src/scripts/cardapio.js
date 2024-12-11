@@ -59,7 +59,6 @@ function exibirCardapio(pratosParaExibir) {
             tituloDiv.appendChild(tituloTipo);
             cardapioDiv.appendChild(tituloDiv); // Adiciona a div do título ao cardápio
             elements = document.getElementsByClassName('titulo-tipo');
-            console.log(elements.length);
             // Adiciona os pratos do tipo em pares
             for (let i = 0; i < pratosParaExibirNaPagina.length; i += pratosPorPagina) {
                 const paginaPratos = document.createElement("div");
@@ -76,12 +75,11 @@ function exibirCardapio(pratosParaExibir) {
                 // Adiciona a página de pratos ao cardápio
                 cardapioDiv.appendChild(paginaPratos);
                 totalPaginas++; // Incrementa o contador de páginas
-                console.log(totalPaginas);
+                
             }
         }
     });
     totalPaginas+=elements.length;
-    console.log(totalPaginas);
 
     if (totalPaginas % 2 !== 0) {
         const paginaReserva = document.createElement("div");
@@ -181,7 +179,13 @@ async function abrirModal(a){
     if(a==0){
         btntxt.innerHTML = 'Criar';
         btntxt.id='create'
-        title.innerHTML = 'Adicionar prato';      
+        title.innerHTML = 'Adicionar prato'; 
+        document.getElementById('nome').value = '';
+        document.getElementById('description').value = '';
+        document.getElementById('price').value = '';
+        document.getElementById('tipos').value = '';
+        const pictureImage = document.querySelector('.picture_image');   
+        pictureImage.innerHTML = 'Escolha uma imagem';  
     }else{
         btntxt.innerHTML = 'Atualizar';
         btntxt.id='update'
@@ -197,12 +201,22 @@ async function abrirModal(a){
             const prato = await response.json();
 
             // Preencher os inputs do modal com os dados existentes
-            document.getElementById('nome').value = prato.nome;
-            document.getElementById('description').value = prato.descricao;
-            document.getElementById('price').value = prato.preco;
-            document.getElementById('tipos').value = prato.tipo; // Seleção do tipo
+            
             const pictureImage = document.querySelector('.picture_image');
-            pictureImage.innerHTML = `<img src="${prato.imagem}" class="picture_img">`;
+            if(nomePrato==''){
+                document.getElementById('nome').value = '';
+                document.getElementById('description').value = '';
+                document.getElementById('price').value = '';
+                document.getElementById('tipos').value = '';
+                pictureImage.innerHTML = 'Escolha uma imagem';
+            }else{
+                document.getElementById('nome').value = prato.nome;
+                document.getElementById('description').value = prato.descricao;
+                document.getElementById('price').value = prato.preco;
+                document.getElementById('tipos').value = prato.tipo; // Seleção do tipo
+                pictureImage.innerHTML = `<img src="${prato.imagem}" class="picture_img">`;
+            }
+            
         } catch (error) {
             console.error('Erro ao carregar dados do prato:', error);
         }
@@ -382,7 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const descricaoInput = document.getElementById('description');
             const precoInput = document.getElementById('price');
             const tiposSelect = document.getElementById('tipos');
-            const imagemInput = document.getElementById('image');
+            const imagemInput = document.getElementById('image') || "";;
             
             const nome = nomeInput.value;
             const descricao = descricaoInput.value;
@@ -402,6 +416,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
+            // Garantir que os campos obrigatórios estão preenchidos
+            if (!nome || !descricao || !preco || !tipo) {
+                console.error("Nome, descrição, preço e tipo são obrigatórios!");
+                return;
+            }
+
             try {
                 const response = fetch(`http://localhost:3000/cardapio`, {
                     method: 'POST',
@@ -419,7 +439,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             } catch (error) {
                 console.error('Erro ao criar prato:', error);
-                alert('Erro ao criar prato.');
+                document.getElementById('janelaCadastro').classList.remove('abrir');
+                carregarCardapio();
             }
         }
     });

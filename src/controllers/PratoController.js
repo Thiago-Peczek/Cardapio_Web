@@ -33,9 +33,11 @@ class PratoController {
     const { nome, descricao, preco, tipo, imagem } = request.body;
 
     // Verificando se todos os campos obrigatórios foram preenchidos
-    if (!nome || !descricao || !preco || !tipo || !imagem) {
+    if (!nome || !descricao || !preco || !tipo) {
         return response.status(400).json({ error: "O preenchimento de todos os campos é obrigatório." });
     }
+
+    const imagemFinal = imagem || "";
 
     // Verificando se o nome do prato já existe
     const pratoByNome = await PratoRepository.getPratoByNome(nome);
@@ -49,7 +51,7 @@ class PratoController {
         descricao,
         preco,
         tipo,
-        imagem,
+        imagem: imagemFinal,
     });
 
     // Respondendo com o prato criado
