@@ -62,7 +62,7 @@ class PratoController {
     const { nome } = request.params; // Nome do prato enviado pela rota
     const { nome: novoNome, descricao, preco, tipo, imagem } = request.body;
 
-    if (!nome || !novoNome || !descricao || !preco || !tipo || !imagem) {
+    if (!nome || !novoNome || !descricao || !preco || !tipo) {
         return response.status(400).json({ error: 'Todos os campos são obrigatórios.' });
     }
 

@@ -81,6 +81,7 @@ function exibirCardapio(pratosParaExibir) {
     });
     totalPaginas+=elements.length;
 
+    // Se o número de páginas for impar
     if (totalPaginas % 2 !== 0) {
         const paginaReserva = document.createElement("div");
         paginaReserva.className = "page"; // Classe para a página reserva

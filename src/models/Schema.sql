@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS pratos(
 	nome VARCHAR(255) NOT NULL,
 	descricao VARCHAR(255) NOT NULL,
 	preco DECIMAL(10,2) NOT NULL,
-	imagem VARCHAR(255) NOT NULL,
+	imagem VARCHAR(255),
 	tipo INT NOT NULL,
 	FOREIGN KEY (tipo) REFERENCES tipos(idTipo)
 );
