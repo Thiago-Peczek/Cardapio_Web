@@ -40,6 +40,7 @@ function exibirCardapio(pratosParaExibir) {
     });
 
     let totalPaginas = 0;
+    var elements;
 
     Object.keys(pratosPorTipo).forEach((tipo) => {
         // Obter os pratos do tipo
@@ -56,9 +57,9 @@ function exibirCardapio(pratosParaExibir) {
             const tituloDiv = document.createElement("div");
             tituloDiv.className = "titulo-tipo"; // Classe específica para o título
             tituloDiv.appendChild(tituloTipo);
-            
             cardapioDiv.appendChild(tituloDiv); // Adiciona a div do título ao cardápio
-            
+            elements = document.getElementsByClassName('titulo-tipo');
+            console.log(elements.length);
             // Adiciona os pratos do tipo em pares
             for (let i = 0; i < pratosParaExibirNaPagina.length; i += pratosPorPagina) {
                 const paginaPratos = document.createElement("div");
@@ -75,12 +76,13 @@ function exibirCardapio(pratosParaExibir) {
                 // Adiciona a página de pratos ao cardápio
                 cardapioDiv.appendChild(paginaPratos);
                 totalPaginas++; // Incrementa o contador de páginas
+                console.log(totalPaginas);
             }
         }
-        
     });
+    totalPaginas+=elements.length;
+    console.log(totalPaginas);
 
-    
     if (totalPaginas % 2 !== 0) {
         const paginaReserva = document.createElement("div");
         paginaReserva.className = "page"; // Classe para a página reserva
